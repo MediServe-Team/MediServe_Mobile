@@ -9,8 +9,8 @@ export default RootComponent = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="auth" component={AuthStackNavigator} />
-        <Stack.Screen name="app" component={MainTabNavigator} />
+        <Stack.Screen name="Auth" component={AuthStackNavigator} />
+        <Stack.Screen name="App" component={MainTabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );

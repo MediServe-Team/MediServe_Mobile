@@ -1,13 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { AuthProvider } from "./src/context/AuthContext";
-import RootComponent from "./src/screens/index";
+import RootComponent from "./src/screens/RootComponent";
 
 export default function App() {
   return (
     <AuthProvider>
       <View style={styles.container}>
-        <StatusBar style="black" />
+        <StatusBar style="auto" />
         <RootComponent />
       </View>
     </AuthProvider>

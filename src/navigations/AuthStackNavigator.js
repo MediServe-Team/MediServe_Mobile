@@ -1,18 +1,15 @@
+import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text, StyleSheet } from "react-native";
+import Login from "../screens/Login/Login";
+import Signup from "../screens/Signup/Signup";
+
+const Stack = createStackNavigator();
 
 export default function AuthStackNavigator() {
   return (
-    <View style={styles.container}>
-      <Text>AuthStackNavigator</Text>
-    </View>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Signup" component={Signup} />
+    </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    //backgroundColor: "gray",
-  },
-});
