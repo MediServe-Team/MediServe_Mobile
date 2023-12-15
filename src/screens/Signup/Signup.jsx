@@ -80,7 +80,7 @@ export default function Signup({ navigation }) {
             <Text style={styles.name}>MediServe</Text>
           </View>
           <Text style={styles.slogan}>
-            Quản lý chi tiêu một cách thông minh, dễ dàng và hiệu quả.
+            Ứng dụng này hỗ trợ bên phía người dùng của MediServe.
           </Text>
         </View>
 
@@ -95,7 +95,7 @@ export default function Signup({ navigation }) {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>Tài khoản</Text>
           <TextInput
             placeholder="email@gmail.com"
             value={email}

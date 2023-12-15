@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import background from "../../../assets/bg_login.jpg";
 import logo from "../../../assets/logo.png";
@@ -60,12 +61,12 @@ export default function Login({ navigation }) {
             <Text style={styles.name}>MediServe</Text>
           </View>
           <Text style={styles.slogan}>
-            Quản lý chi tiêu một cách thông minh, dễ dàng và hiệu quả.
+            Ứng dụng này hỗ trợ bên phía người dùng của MediServe.
           </Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>Tài khoản</Text>
           <TextInput
             placeholder="email@gmail.com"
             value={email}
@@ -101,6 +102,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.btnAuth}
           //onPress={handleLogin}
+          onPress={() => navigation.navigate("App")}
         >
           <Text style={styles.textAuth}>Đăng nhập</Text>
         </TouchableOpacity>

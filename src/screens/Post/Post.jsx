@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export default function MainTabNavigator() {
+export default function Post() {
   return (
     <View>
-      <Text>MainTabNavigator</Text>
+      <Text>Post</Text>
     </View>
   );
 }

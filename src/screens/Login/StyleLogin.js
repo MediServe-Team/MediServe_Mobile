@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingLeft: "4%",
     paddingRight: "13%",
     paddingVertical: "2%",
-    borderRadius: 20,
+    borderRadius: 10,
     color: theme.colors.black,
     fontSize: theme.fontSizes.text_body,
   },
@@ -136,6 +136,18 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 10,
     marginLeft: "10%",
+  },
+  buttonbtn: {
+    backgroundColor: theme.colors.tertiary,
+    width: 30,
+    alignSelf: "center",
+    marginVertical: 20,
+    height: 54,
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "center",
+    color: theme.colors.white,
+    textAlign: "center",
   },
 });
 
