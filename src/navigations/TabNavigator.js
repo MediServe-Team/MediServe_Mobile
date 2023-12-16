@@ -3,12 +3,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons.js";
 import AntDesign from "react-native-vector-icons/AntDesign.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5.js";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons.js";
 import { View, Text } from "react-native";
 import Home from "../screens/Home/Home";
 import Post from "../screens/Post/Post";
 import Chat from "../screens/Chat/Chat";
 import Medicine from "../screens/Medicine/Medicine";
 import Order from "../screens/Order/Order";
+import Header from "../components/Header/Header";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,11 +20,14 @@ export default function TabNavigator() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        tabBarActiveBackgroundColor: "#223F30",
-        tabBarInactiveBackgroundColor: "#223F30",
-        tabBarActiveTintColor: "#fcd360",
-        tabBarInactiveTintColor: "#fff",
-        tabBarStyle: { height: 60 },
+        tabBarActiveBackgroundColor: "rgba(249, 249, 249, 1)",
+        tabBarInactiveBackgroundColor: "rgba(249, 249, 249, 1)",
+        tabBarActiveTintColor: "rgba(22, 149, 204, 1)",
+        tabBarInactiveTintColor: "rgba(191, 191, 191, 1)",
+        tabBarStyle: { height: 70, gap: 10 },
+        tabBarIconStyle: { marginTop: 10 },
+        tabBarLabelStyle: { fontWeight: 600, fontSize: 14 },
+        //headerTitle: () => <Header />,
       }}
     >
       {/* Home Tab */}
@@ -32,7 +37,7 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: "Nhà",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home-sharp" size={22} color={color} />
+            <Ionicons name="home-sharp" size={25} color={color} />
           ),
         }}
       />
@@ -44,7 +49,7 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: "Bài viết",
           tabBarIcon: ({ color }) => (
-            <AntDesign name="clockcircle" size={22} color={color} />
+            <MaterialCommunityIcons name="post" size={25} color={color} />
           ),
         }}
       />
@@ -56,7 +61,7 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: "Nhắn tin",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="md-stats-chart" size={22} color={color} />
+            <MaterialCommunityIcons name="chat" size={25} color={color} />
           ),
         }}
       />
@@ -68,7 +73,11 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: "Thuốc",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" size={22} color={color} />
+            <MaterialCommunityIcons
+              name="medical-bag"
+              size={25}
+              color={color}
+            />
           ),
         }}
       />
@@ -80,7 +89,7 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: "Đơn",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" size={22} color={color} />
+            <MaterialCommunityIcons name="truck" size={25} color={color} />
           ),
         }}
       />

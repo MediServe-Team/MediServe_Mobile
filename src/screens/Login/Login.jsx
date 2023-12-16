@@ -102,7 +102,9 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.btnAuth}
           //onPress={handleLogin}
-          onPress={() => navigation.navigate("App")}
+          onPress={() => {
+            navigation.navigate("App");
+          }}
         >
           <Text style={styles.textAuth}>Đăng nhập</Text>
         </TouchableOpacity>

@@ -1,9 +1,9 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStackNavigator from "../navigations/StackNavigator";
 import DrawerNavigator from "../navigations/DrawerNavigator";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default RootComponent = () => {
   return (
