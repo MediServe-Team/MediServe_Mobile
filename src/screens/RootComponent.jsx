@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStackNavigator from "../navigations/StackNavigator";
 import DrawerNavigator from "../navigations/DrawerNavigator";
+import TabNavigator from "../navigations/TabNavigator";
 
 const Stack = createNativeStackNavigator();
 

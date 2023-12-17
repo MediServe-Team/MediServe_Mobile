@@ -12,6 +12,7 @@ import logo from "../../../assets/logo.png";
 import background from "../../../assets/bg_login.jpg";
 import { AuthContext } from "../../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Signup({ navigation }) {
   const { login } = useContext(AuthContext);
@@ -72,108 +73,118 @@ export default function Signup({ navigation }) {
   // };
 
   return (
-    <ImageBackground source={background} style={styles.wrapper}>
-      <View style={styles.content}>
-        <View style={styles.appInfoContainer}>
-          <View style={styles.appInfo}>
-            <Image style={styles.logo} source={logo} />
-            <Text style={styles.name}>MediServe</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground source={background} style={styles.wrapper}>
+        <View style={styles.content}>
+          <View style={styles.appInfoContainer}>
+            <View style={styles.appInfo}>
+              <Image style={styles.logo} source={logo} />
+              <Text style={styles.name}>MediServe</Text>
+            </View>
+            <Text style={styles.slogan}>
+              Ứng dụng này hỗ trợ bên phía người dùng của MediServe.
+            </Text>
           </View>
-          <Text style={styles.slogan}>
-            Ứng dụng này hỗ trợ bên phía người dùng của MediServe.
-          </Text>
-        </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Họ và tên</Text>
-          <TextInput
-            placeholder="Nguyễn A"
-            value={name}
-            onChangeText={setName}
-            style={styles.input}
-          />
-        </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Họ và tên</Text>
+            <TextInput
+              placeholder="Nguyễn A"
+              value={name}
+              onChangeText={setName}
+              style={styles.input}
+            />
+          </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Tài khoản</Text>
-          <TextInput
-            placeholder="email@gmail.com"
-            value={email}
-            onChangeText={setEmail}
-            style={styles.input}
-          />
-        </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Tài khoản</Text>
+            <TextInput
+              placeholder="email@gmail.com"
+              value={email}
+              onChangeText={setEmail}
+              style={styles.input}
+            />
+          </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Mật khẩu</Text>
-          <TextInput
-            placeholder="Nhập mật khẩu"
-            secureTextEntry={inputCurrentPasswordType === "password"}
-            value={password}
-            onChangeText={setPassword}
-            style={styles.input}
-          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Mật khẩu</Text>
+            <TextInput
+              placeholder="Nhập mật khẩu"
+              secureTextEntry={inputCurrentPasswordType === "password"}
+              value={password}
+              onChangeText={setPassword}
+              style={styles.input}
+            />
+            <TouchableOpacity
+              style={styles.eyeBtn}
+              onPress={togglePasswordVisibility}
+            >
+              {inputCurrentPasswordType === "password" ? (
+                <Ionicons
+                  style={styles.eye_icon}
+                  name="eye-off-outline"
+                  size={24}
+                />
+              ) : (
+                <Ionicons
+                  style={styles.eye_icon}
+                  name="eye-outline"
+                  size={24}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Nhập lại mật khẩu</Text>
+            <TextInput
+              placeholder="Lặp lại mật khẩu"
+              secureTextEntry={inputRepeatPasswordType === "password"}
+              value={confirm}
+              onChangeText={setConfirm}
+              style={styles.input}
+            />
+            <TouchableOpacity
+              style={styles.eyeBtn}
+              onPress={toggleRepeatPasswordVisibility}
+            >
+              {inputRepeatPasswordType === "password" ? (
+                <Ionicons
+                  style={styles.eye_icon}
+                  name="eye-off-outline"
+                  size={24}
+                />
+              ) : (
+                <Ionicons
+                  style={styles.eye_icon}
+                  name="eye-outline"
+                  size={24}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+
+          {errorMessage !== "" && (
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          )}
           <TouchableOpacity
-            style={styles.eyeBtn}
-            onPress={togglePasswordVisibility}
+            style={styles.btnAuth}
+            //onPress={handleRegister}
           >
-            {inputCurrentPasswordType === "password" ? (
-              <Ionicons
-                style={styles.eye_icon}
-                name="eye-off-outline"
-                size={24}
-              />
-            ) : (
-              <Ionicons style={styles.eye_icon} name="eye-outline" size={24} />
-            )}
+            <Text style={styles.textAuth}>Đăng ký</Text>
           </TouchableOpacity>
-        </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nhập lại mật khẩu</Text>
-          <TextInput
-            placeholder="Lặp lại mật khẩu"
-            secureTextEntry={inputRepeatPasswordType === "password"}
-            value={confirm}
-            onChangeText={setConfirm}
-            style={styles.input}
-          />
-          <TouchableOpacity
-            style={styles.eyeBtn}
-            onPress={toggleRepeatPasswordVisibility}
-          >
-            {inputRepeatPasswordType === "password" ? (
-              <Ionicons
-                style={styles.eye_icon}
-                name="eye-off-outline"
-                size={24}
-              />
-            ) : (
-              <Ionicons style={styles.eye_icon} name="eye-outline" size={24} />
-            )}
-          </TouchableOpacity>
+          <View style={styles.forget_container}>
+            <Text style={styles.forget_title}>Bạn đã có tài khoản?</Text>
+            <Text
+              style={styles.forget_button}
+              onPress={() => navigation.navigate("Login")}
+            >
+              Đăng nhập
+            </Text>
+          </View>
         </View>
-
-        {errorMessage !== "" && (
-          <Text style={styles.errorText}>{errorMessage}</Text>
-        )}
-        <TouchableOpacity
-          style={styles.btnAuth}
-          //onPress={handleRegister}
-        >
-          <Text style={styles.textAuth}>Đăng ký</Text>
-        </TouchableOpacity>
-
-        <View style={styles.forget_container}>
-          <Text style={styles.forget_title}>Bạn đã có tài khoản?</Text>
-          <Text
-            style={styles.forget_button}
-            onPress={() => navigation.navigate("Login")}
-          >
-            Đăng nhập
-          </Text>
-        </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }

@@ -5,7 +5,7 @@ export default function Home({ navigation }) {
     <View>
       <Text>Home</Text>
       <Button
-        title="Move to Profile"
+        title="Move to Login"
         onPress={() => {
           navigation.navigate("Auth");
         }}

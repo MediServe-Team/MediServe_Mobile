@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import Ionicons from "react-native-vector-icons/Ionicons.js";
-import AntDesign from "react-native-vector-icons/AntDesign.js";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5.js";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons.js";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { View, Text } from "react-native";
 import Home from "../screens/Home/Home";
 import Post from "../screens/Post/Post";
@@ -27,7 +27,6 @@ export default function TabNavigator() {
         tabBarStyle: { height: 70, gap: 10 },
         tabBarIconStyle: { marginTop: 10 },
         tabBarLabelStyle: { fontWeight: 600, fontSize: 14 },
-        //headerTitle: () => <Header />,
       }}
     >
       {/* Home Tab */}
