@@ -17,8 +17,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
 
 export default function Profile({ navigation }) {
-  const [selectedImage, setSelectedImage] = useState(imagesDataURL[0]);
-  const [DOB, setDOB] = useState(new Date());
+  //const [DOB, setDOB] = useState(new Date());
   const [openDob, setOpenDob] = useState(false);
 
   const {
@@ -59,11 +58,11 @@ export default function Profile({ navigation }) {
     }
   };
 
-  const handleChangeDob = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setOpenDob(false);
-    setDOB(currentDate);
-  };
+  // const handleChangeDob = (event, selectedDate) => {
+  //   const currentDate = selectedDate;
+  //   setOpenDob(false);
+  //   setDOB(currentDate);
+  // };
 
   return (
     <SafeAreaView style={styles.screensContainer}>
