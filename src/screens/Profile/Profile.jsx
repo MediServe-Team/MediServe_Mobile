@@ -15,25 +15,26 @@ import { imagesDataURL } from "../../static/data";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
+import { sampleProfile } from "../../static/data";
 
 export default function Profile({ navigation }) {
-  //const [DOB, setDOB] = useState(new Date());
   const [openDob, setOpenDob] = useState(false);
+  const sample = {
+    name: sampleProfile.name,
+    fullName: sampleProfile.fullName,
+    gender: sampleProfile.gender,
+    dob: sampleProfile.dob,
+    phone: sampleProfile.phone,
+    address: sampleProfile.address,
+    avatarUrl: sampleProfile.avatarUrl,
+  };
 
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      name: "",
-      fullName: "",
-      gender: true,
-      dob: new Date(),
-      phone: "",
-      address: "",
-      avatarUrl: imagesDataURL[0],
-    },
+    defaultValues: sample,
   });
   const onSubmit = (data) => console.log(data);
 
@@ -57,12 +58,6 @@ export default function Profile({ navigation }) {
       console.log("looix");
     }
   };
-
-  // const handleChangeDob = (event, selectedDate) => {
-  //   const currentDate = selectedDate;
-  //   setOpenDob(false);
-  //   setDOB(currentDate);
-  // };
 
   return (
     <SafeAreaView style={styles.screensContainer}>

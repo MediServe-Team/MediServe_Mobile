@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     height: 222,
-    paddingStart: 65,
+    paddingLeft: 65,
   },
   containerTitleBg: {
     width: 150,
   },
   titleBg: {
-    color: "#ffffff",
+    color: "rgba(141, 224, 255, 1)",
     fontSize: 25,
     fontWeight: "500",
     textAlign: "center",

@@ -9,16 +9,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(69, 152, 211, 1)",
     gap: 5,
+    paddingLeft: 20,
   },
   headerText: {
     fontWeight: "600",
-    fontSize: 20,
+    fontSize: 24,
     color: "#ffff",
     letterSpacing: 0.5,
   },
   logo: {
-    width: 34,
-    height: 22,
+    width: 40,
+    height: 26,
   },
 });
 

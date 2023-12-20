@@ -25,7 +25,11 @@ export default function Home({ navigation }) {
         >
           <View style={styles.containerTitleBg}>
             <View style={{ alignItems: "center" }}>
-              <Ionicons name="home-sharp" size={60} color="#ffffff" />
+              <Ionicons
+                name="home-sharp"
+                size={60}
+                color="rgba(141, 224, 255, 1)"
+              />
             </View>
             <Text style={styles.titleBg}>Chào mừng đến với MediServe</Text>
           </View>

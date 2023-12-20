@@ -10,7 +10,7 @@ import Post from "../screens/Post/Post";
 import Chat from "../screens/Chat/Chat";
 import Medicine from "../screens/Medicine/Medicine";
 import Order from "../screens/Order/Order";
-import Header from "../components/Header/Header";
+import { PostStackNavigator } from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +44,7 @@ export default function TabNavigator() {
       {/* Post Tab */}
       <Tab.Screen
         name="Post"
-        component={Post}
+        component={PostStackNavigator}
         options={{
           tabBarLabel: "Bài viết",
           tabBarIcon: ({ color }) => (
