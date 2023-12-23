@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
   },
   imgAuthor: {
     borderRadius: 999,
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
   },
   containerContent: {
     paddingLeft: 25,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 21,
     color: "rgba(22, 149, 204, 1)",
     textAlign: "justify",
     textAlignVertical: "center",
@@ -37,13 +37,18 @@ const styles = StyleSheet.create({
   },
   textContent: {
     fontWeight: "400",
-    fontSize: 15,
+    fontSize: 17,
     textAlign: "justify",
   },
   btnTop: {
     position: "absolute",
     right: 8,
     bottom: 20,
+  },
+  textDate: {
+    fontWeight: "700",
+    color: "rgba(140, 140, 140, 1)",
+    fontSize: 15,
   },
 });
 

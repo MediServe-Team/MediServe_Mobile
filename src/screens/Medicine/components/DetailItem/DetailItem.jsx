@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
-import { sampleItem } from "../../../../static/data";
+import { sampleItem, sampleCategory } from "../../../../static/data";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./StyleDetailItem";
 
 export default function DetailItem({ route, navigation }) {
   const id = route.params.idItem;
   const [data, setData] = useState(null);
+  const [category, setCategory] = useState("");
   const [scrollDown, setScrollDown] = useState(false);
   const scrollRef = useRef();
 
@@ -36,7 +37,11 @@ export default function DetailItem({ route, navigation }) {
 
   useEffect(() => {
     const result = sampleItem.find((i) => i.id === id);
-    setData(result);
+    if (result) {
+      setData(result);
+      const c = sampleCategory.find((i) => i.id === result.categoryId);
+      setCategory(c.categoryName);
+    }
   }, []);
 
   return (
@@ -74,7 +79,7 @@ export default function DetailItem({ route, navigation }) {
               <View style={styles.containerLine}>
                 <Text style={styles.title}>Danh mục:</Text>
                 <Text style={styles.textContent}>
-                  {data.categoryId === "" ? "Không có" : data.categoryId}
+                  {category === "" ? "Không có" : category}
                 </Text>
               </View>
 
@@ -128,8 +133,15 @@ export default function DetailItem({ route, navigation }) {
 
               <View style={styles.containerLine}>
                 <Text style={styles.title}>Chức năng:</Text>
-                <Text style={styles.textContent}>
+                <Text style={[styles.textContent, { textAlign: "justify" }]}>
                   {data.itemFunction === "" ? "Không có" : data.itemFunction}
+                </Text>
+              </View>
+
+              <View style={styles.containerLine}>
+                <Text style={styles.title}>Ghi chú:</Text>
+                <Text style={[styles.textContent, { textAlign: "justify" }]}>
+                  {data.note === "" ? "Không có" : data.note}
                 </Text>
               </View>
             </View>

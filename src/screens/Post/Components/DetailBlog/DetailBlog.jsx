@@ -67,18 +67,13 @@ export default function DetailBlog({ route, navigation }) {
               <View style={styles.containerAuthor}>
                 <View style={styles.author}>
                   <Image style={styles.imgAuthor} src={data.imageAuthor} />
-                  <Text style={{ fontWeight: "600", fontSize: 14 }}>
+                  <Text style={{ fontWeight: "600", fontSize: 15 }}>
                     {data.nameAuthor}
                   </Text>
                 </View>
 
                 <View style={{ justifyContent: "center" }}>
-                  <Text
-                    style={{
-                      fontWeight: "700",
-                      color: "rgba(140, 140, 140, 1)",
-                    }}
-                  >
+                  <Text style={styles.textDate}>
                     {data.datePost.toLocaleString("default", {
                       day: "2-digit",
                     }) +

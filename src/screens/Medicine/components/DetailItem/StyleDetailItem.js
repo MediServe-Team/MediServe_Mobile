@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
     width: "45%",
     flexShrink: 1,
     lineHeight: 30,
+    textTransform: "capitalize",
   },
   textContent: {
     width: "55%",
     fontWeight: "400",
     fontSize: 18,
-    textAlign: "justify",
     textAlignVertical: "top",
     flexShrink: 1,
     lineHeight: 30,
