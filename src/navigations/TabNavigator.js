@@ -4,13 +4,11 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { View, Text } from "react-native";
+import { View, Text, KeyboardAvoidingView } from "react-native";
 import Home from "../screens/Home/Home";
-import Post from "../screens/Post/Post";
 import Chat from "../screens/Chat/Chat";
-import Medicine from "../screens/Medicine/Medicine";
 import Order from "../screens/Order/Order";
-import { PostStackNavigator } from "./StackNavigator";
+import { PostStackNavigator, MedicineStackNavigator } from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +25,7 @@ export default function TabNavigator() {
         tabBarStyle: { height: 70, gap: 10 },
         tabBarIconStyle: { marginTop: 10 },
         tabBarLabelStyle: { fontWeight: 600, fontSize: 14 },
+        tabBarHideOnKeyboard: true,
       }}
     >
       {/* Home Tab */}
@@ -68,7 +67,7 @@ export default function TabNavigator() {
       {/* Medicine Tab */}
       <Tab.Screen
         name="Medicine"
-        component={Medicine}
+        component={MedicineStackNavigator}
         options={{
           tabBarLabel: "Thuốc",
           tabBarIcon: ({ color }) => (

@@ -27,7 +27,7 @@ export default function Home({ navigation }) {
             <View style={{ alignItems: "center" }}>
               <Ionicons
                 name="home-sharp"
-                size={60}
+                size={70}
                 color="rgba(141, 224, 255, 1)"
               />
             </View>

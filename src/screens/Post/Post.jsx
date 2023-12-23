@@ -32,7 +32,7 @@ export default function Post({ navigation }) {
         >
           <View style={styles.containerTitleBg}>
             <View style={{ alignItems: "center" }}>
-              <MUI name="post" size={60} color="rgba(22, 149, 204, 1)" />
+              <MUI name="post" size={70} color="rgba(22, 149, 204, 1)" />
             </View>
             <Text style={styles.titleBg}>
               Blog chia sẻ kiến thức và kinh nghiệm về chăm sóc sức khỏe, duy

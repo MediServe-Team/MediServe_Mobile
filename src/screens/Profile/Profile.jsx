@@ -12,7 +12,6 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { imagesDataURL } from "../../static/data";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
 import { sampleProfile } from "../../static/data";
@@ -151,11 +150,7 @@ export default function Profile({ navigation }) {
                 <Controller
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <Picker
-                      selectedValue={value}
-                      onValueChange={onChange}
-                      onBlur={onBlur}
-                    >
+                    <Picker selectedValue={value} onValueChange={onChange}>
                       <Picker.Item label="Nam" value={true} />
                       <Picker.Item label="Nữ" value={false} />
                     </Picker>
