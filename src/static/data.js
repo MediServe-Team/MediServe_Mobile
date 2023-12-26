@@ -259,3 +259,99 @@ export const sampleCategory = [
     note: "",
   },
 ];
+
+export const sampleOrder = [
+  {
+    id: 1,
+    name: "Thuốc giảm đau",
+    staff: "Quang Tran Minh",
+    timeOrder: new Date(),
+    dateOrder: new Date(),
+    numItems: 8,
+    totalPrice: 300000,
+    status: "wait_confirmed",
+    prescriptionId: 1,
+  },
+  {
+    id: 2,
+    name: "Mua tổng hợp",
+    staff: "Phuc Hoang Van",
+    timeOrder: new Date(),
+    dateOrder: new Date(),
+    numItems: 10,
+    totalPrice: 152000,
+    status: "wait_ordered",
+    prescriptionId: 2,
+  },
+  {
+    id: 3,
+    name: "Thuốc kháng sinh",
+    staff: "Phuc Hoang Van",
+    timeOrder: new Date(),
+    dateOrder: new Date(),
+    numItems: 4,
+    totalPrice: 72000,
+    status: "received",
+    prescriptionId: 3,
+  },
+  {
+    id: 4,
+    name: "Dụng cụ y tế",
+    staff: "Dinh Cao Thang",
+    timeOrder: new Date(),
+    dateOrder: new Date(),
+    numItems: 9,
+    totalPrice: 93000,
+    status: "cancelled",
+    prescriptionId: 4,
+  },
+  {
+    id: 5,
+    name: "Thuốc hạ sốt",
+    staff: "Nguyen Anh Dung",
+    timeOrder: new Date(),
+    dateOrder: new Date(),
+    numItems: 3,
+    totalPrice: 45000,
+    status: "wait_confirmed",
+    prescriptionId: 5,
+  },
+];
+
+export const sampleDetailReceiptItem = [
+  {
+    receiptId: 1,
+    itemStockId: 1,
+    quantity: 2,
+    totalPrice: 24000,
+    itemName: "Panadol Extra",
+    sellPrice: 12000,
+  },
+  {
+    receiptId: 1,
+    itemStockId: 2,
+    quantity: 4,
+    totalPrice: 96000,
+    itemName: "Diazepam 10mg/2ml",
+    sellPrice: 24000,
+  },
+];
+
+export const sampleDetailPrescriptionItem = [
+  {
+    prescriptionId: 1,
+    itemStockId: 1,
+    quantity: 3,
+    totalPrice: 36000,
+    itemName: "Panadol Extra",
+    sellPrice: 12000,
+  },
+  {
+    prescriptionId: 1,
+    itemStockId: 2,
+    quantity: 6,
+    totalPrice: 144000,
+    itemName: "Diazepam 10mg/2ml",
+    sellPrice: 24000,
+  },
+];

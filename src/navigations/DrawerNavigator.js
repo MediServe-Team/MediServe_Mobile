@@ -5,6 +5,7 @@ import TabNavigator from "./TabNavigator";
 import Profile from "../screens/Profile/Profile";
 import Header from "../components/Header/Header";
 import Icon from "react-native-vector-icons/Entypo";
+import { useState } from "react";
 
 export default function DrawerNavigator() {
   const Drawer = createDrawerNavigator();

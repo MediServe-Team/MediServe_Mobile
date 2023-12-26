@@ -5,6 +5,8 @@ import Blog from "../screens/Post/Post";
 import DetailBlog from "../screens/Post/Components/DetailBlog/DetailBlog";
 import Item from "../screens/Medicine/Medicine";
 import DetailItem from "../screens/Medicine/components/DetailItem/DetailItem";
+import Order from "../screens/Order/Order";
+import DetailOrder from "../screens/Order/components/DetailOrder/DetailOrder";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +42,18 @@ export function MedicineStackNavigator() {
     >
       <Stack.Screen name="Item" component={Item} />
       <Stack.Screen name="DetailItem" component={DetailItem} />
+    </Stack.Navigator>
+  );
+}
+
+export function OrderStackNavigator() {
+  return (
+    <Stack.Navigator
+      initialRouteName="ListOrder"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="ListOrder" component={Order} />
+      <Stack.Screen name="DetailOrder" component={DetailOrder} />
     </Stack.Navigator>
   );
 }

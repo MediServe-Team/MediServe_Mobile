@@ -1,5 +1,13 @@
-import { View, Text, StyleSheet, Button, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React from "react";
+import styles from "./StyleChat";
 
 export default function Chat() {
   const createTwoButtonAlert = () =>
@@ -28,16 +36,15 @@ export default function Chat() {
 
   return (
     <View style={styles.container}>
-      <Button title={"2-Button Alert"} onPress={createTwoButtonAlert} />
-      <Button title={"3-Button Alert"} onPress={createThreeButtonAlert} />
+      <View style={styles.header}>
+        <Text>Header</Text>
+      </View>
+      <View style={styles.content}>
+        <Text>Content</Text>
+      </View>
+      <View style={styles.footer}>
+        <Text>Footer</Text>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-});

@@ -3,6 +3,8 @@ import { StyleSheet, View } from "react-native";
 import { AuthProvider } from "./src/context/AuthContext";
 import RootComponent from "./src/screens/RootComponent";
 
+import React from "react";
+
 export default function App() {
   return (
     <AuthProvider>

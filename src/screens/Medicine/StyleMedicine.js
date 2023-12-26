@@ -62,6 +62,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  clearButton: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   menu: {
     flexDirection: "row",
     gap: 20,

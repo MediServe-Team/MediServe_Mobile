@@ -28,6 +28,10 @@ export default function Medicine({ navigation }) {
   const ref = useRef(null);
   useScrollToTop(ref);
 
+  const handleClear = () => {
+    setSearchValue("");
+  };
+
   const handleAll = () => {
     setStatus("ALL");
   };
@@ -149,6 +153,19 @@ export default function Medicine({ navigation }) {
               onChangeText={setSearchValue}
               onSubmitEditing={handleSearchSubmit}
             />
+
+            {searchValue.length > 0 && (
+              <TouchableOpacity
+                style={styles.clearButton}
+                onPress={handleClear}
+              >
+                <FontAwesome5
+                  name="times-circle"
+                  size={20}
+                  color={"rgba(194, 193, 193, 1)"}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 

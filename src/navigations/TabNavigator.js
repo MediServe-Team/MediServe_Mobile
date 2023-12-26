@@ -1,14 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { View, Text, KeyboardAvoidingView } from "react-native";
 import Home from "../screens/Home/Home";
 import Chat from "../screens/Chat/Chat";
-import Order from "../screens/Order/Order";
-import { PostStackNavigator, MedicineStackNavigator } from "./StackNavigator";
+import {
+  PostStackNavigator,
+  MedicineStackNavigator,
+  OrderStackNavigator,
+} from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +52,7 @@ export default function TabNavigator() {
       />
 
       {/* Chat Tab */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Chat"
         component={Chat}
         options={{
@@ -62,7 +61,7 @@ export default function TabNavigator() {
             <MaterialCommunityIcons name="chat" size={25} color={color} />
           ),
         }}
-      />
+      /> */}
 
       {/* Medicine Tab */}
       <Tab.Screen
@@ -83,7 +82,7 @@ export default function TabNavigator() {
       {/* Order Tab */}
       <Tab.Screen
         name="Order"
-        component={Order}
+        component={OrderStackNavigator}
         options={{
           tabBarLabel: "Đơn",
           tabBarIcon: ({ color }) => (
