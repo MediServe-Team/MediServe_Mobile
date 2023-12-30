@@ -13,6 +13,7 @@ import background from "../../../assets/bg_login.jpg";
 import { AuthContext } from "../../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-root-toast";
 
 export default function Signup({ navigation }) {
   const { login } = useContext(AuthContext);
@@ -25,6 +26,18 @@ export default function Signup({ navigation }) {
     useState("password");
   const [inputRepeatPasswordType, setInputRepeatPasswordType] =
     useState("password");
+
+  const toastSuccessSignup = () => {
+    Toast.show("Đăng ký thành công!", {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: "#39F5C7",
+      textColor: "#fff",
+      opacity: 0.8,
+      position: -60,
+    });
+  };
+
   const togglePasswordVisibility = () => {
     setInputCurrentPasswordType(
       inputCurrentPasswordType === "password" ? "text" : "password"
@@ -170,8 +183,12 @@ export default function Signup({ navigation }) {
           <TouchableOpacity
             style={styles.btnAuth}
             //onPress={handleRegister}
+            onPress={() => {
+              navigation.navigate("Login");
+              toastSuccessSignup();
+            }}
           >
-            <Text style={styles.textAuth}>Đăng ký</Text>
+            <Text style={styles.textAuth}>ĐĂNG KÝ</Text>
           </TouchableOpacity>
 
           <View style={styles.forget_container}>

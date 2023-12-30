@@ -15,6 +15,7 @@ import { imagesDataURL } from "../../static/data";
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
 import { sampleProfile } from "../../static/data";
+import Toast from "react-native-root-toast";
 
 export default function Profile({ navigation }) {
   const [openDob, setOpenDob] = useState(false);
@@ -35,7 +36,23 @@ export default function Profile({ navigation }) {
   } = useForm({
     defaultValues: sample,
   });
-  const onSubmit = (data) => console.log(data);
+
+  const toastSuccessSave = () => {
+    Toast.show("Lưu thành công!", {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: "#39F5C7",
+      textColor: "#fff",
+      opacity: 1,
+      textStyle: { fontWeight: "500" },
+    });
+  };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("Home");
+    toastSuccessSave();
+  };
 
   const handleImageSelection = async (onChange) => {
     try {

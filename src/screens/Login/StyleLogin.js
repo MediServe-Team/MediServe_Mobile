@@ -11,11 +11,14 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: 70,
   },
   appInfoContainer: {
     justifyContent: "center",
     alignItems: "center",
+    gap: 20,
+    paddingBottom: 20,
   },
   appInfo: {
     display: "flex",
@@ -77,6 +80,8 @@ const styles = StyleSheet.create({
   textAuth: {
     color: theme.colors.white,
     textAlign: "center",
+    fontSize: 17,
+    fontWeight: "600",
   },
   line_container: {
     marginVertical: "3%",

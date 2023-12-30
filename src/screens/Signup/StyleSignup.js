@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
   textAuth: {
     color: theme.colors.white,
     textAlign: "center",
+    fontSize: 17,
+    fontWeight: "600",
   },
   forget_container: {
     flexDirection: "row",
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.text_body,
   },
   forget_button: {
-    color: theme.colors.blue,
+    color: "#7cdafc",
     textDecorationLine: "underline",
     fontSize: theme.fontSizes.text_body,
     fontWeight: "600",

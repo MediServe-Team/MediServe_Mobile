@@ -2,16 +2,17 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { AuthProvider } from "./src/context/AuthContext";
 import RootComponent from "./src/screens/RootComponent";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 import React from "react";
 
 export default function App() {
   return (
     <AuthProvider>
-      <View style={styles.container}>
+      <RootSiblingParent style={styles.container}>
         <StatusBar style="auto" />
         <RootComponent />
-      </View>
+      </RootSiblingParent>
     </AuthProvider>
   );
 }

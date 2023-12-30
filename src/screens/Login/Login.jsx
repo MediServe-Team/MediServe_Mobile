@@ -15,6 +15,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-root-toast";
 
 export default function Login({ navigation }) {
   const { login } = useContext(AuthContext);
@@ -27,6 +28,17 @@ export default function Login({ navigation }) {
     setInputCurrentPasswordType(
       inputCurrentPasswordType === "password" ? "text" : "password"
     );
+  };
+
+  const toastSuccessLogin = () => {
+    Toast.show("Đăng nhập thành công!", {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: "rgba(69, 152, 211, 1)",
+      textColor: "#fff",
+      opacity: 1,
+      textStyle: { fontWeight: "500" },
+    });
   };
 
   // const handleLogin = async () => {
@@ -111,21 +123,22 @@ export default function Login({ navigation }) {
             //onPress={handleLogin}
             onPress={() => {
               navigation.navigate("App");
+              toastSuccessLogin();
             }}
           >
-            <Text style={styles.textAuth}>Đăng nhập</Text>
+            <Text style={styles.textAuth}>ĐĂNG NHẬP</Text>
           </TouchableOpacity>
 
-          <View style={styles.line_container}>
+          {/* <View style={styles.line_container}>
             <View style={styles.line} />
             <Text style={styles.or}>Hoặc</Text>
             <View style={styles.line} />
-          </View>
+          </View> */}
 
-          <TouchableOpacity style={styles.google}>
+          {/* <TouchableOpacity style={styles.google}>
             <Ionicons name="logo-google" size={20}></Ionicons>
             <Text style={styles.textGoogle}>Đăng nhập với Google</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <View style={styles.forget_container}>
             <Text style={styles.forget_title}>Bạn chưa có tài khoản?</Text>
@@ -137,9 +150,9 @@ export default function Login({ navigation }) {
             </Text>
           </View>
 
-          <View style={styles.forget_container}>
+          {/* <View style={styles.forget_container}>
             <Text style={styles.forget_button1}>Quên mật khẩu?</Text>
-          </View>
+          </View> */}
         </View>
       </ImageBackground>
     </SafeAreaView>
