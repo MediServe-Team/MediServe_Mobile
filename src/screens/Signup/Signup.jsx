@@ -33,7 +33,6 @@ export default function Signup({ navigation }) {
       delay: 500,
       backgroundColor: "#39F5C7",
       textColor: "#fff",
-      opacity: 0.8,
       position: -60,
     });
   };
