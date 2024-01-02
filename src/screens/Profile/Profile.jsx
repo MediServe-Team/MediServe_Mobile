@@ -16,6 +16,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
 import { sampleProfile } from "../../static/data";
 import Toast from "react-native-root-toast";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function Profile({ navigation }) {
   const [openDob, setOpenDob] = useState(false);

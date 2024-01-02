@@ -5,14 +5,17 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   wrapper: {
-    flex: 1,
+    position: "absolute",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+    zIndex: 1,
   },
   content: {
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    justifyContent: "flex-start",
     paddingTop: 70,
+    zIndex: 999,
   },
   appInfoContainer: {
     justifyContent: "center",
@@ -26,14 +29,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    gap: 2,
   },
   logo: {
     width: 60,
     height: 30,
-    marginRight: "2%",
   },
   name: {
-    fontSize: theme.fontSizes.headline_two,
+    fontSize: 30,
     color: theme.colors.white,
     textAlign: "center",
   },
@@ -41,14 +44,22 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.text_body,
     color: theme.colors.white,
     marginHorizontal: "8%",
+    textAlign: "center",
   },
-  inputContainer: {
-    marginVertical: "4%",
+  inputContainerEmail: {
+    marginTop: "4%",
+    marginBottom: "7%",
+  },
+  inputContainerPass: {
+    marginTop: "4%",
+    marginBottom: "12%",
   },
   label: {
     marginBottom: "2%",
     marginStart: "10%",
     color: theme.colors.white,
+    fontWeight: "600",
+    fontSize: 17,
   },
   input: {
     backgroundColor: "#ebeef2",
@@ -138,9 +149,14 @@ const styles = StyleSheet.create({
     marginVertical: "3%",
   },
   errorText: {
-    color: "red",
+    color: "#f74040",
     marginTop: 10,
-    marginLeft: "10%",
+    marginLeft: "12%",
+    fontWeight: "500",
+    fontSize: 16,
+    position: "absolute",
+    top: 70,
+    left: 5,
   },
   buttonbtn: {
     backgroundColor: theme.colors.tertiary,

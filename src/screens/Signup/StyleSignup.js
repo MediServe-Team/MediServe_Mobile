@@ -5,18 +5,22 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   wrapper: {
-    flex: 1,
+    position: "absolute",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+    zIndex: 1,
   },
   content: {
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    marginHorizontal: "auto",
-    justifyContent: "center",
+    paddingTop: 40,
+    zIndex: 999,
   },
   appInfoContainer: {
     justifyContent: "center",
     alignItems: "center",
+    gap: 10,
   },
   appInfo: {
     display: "flex",
@@ -39,6 +43,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.text_body,
     color: theme.colors.white,
     marginHorizontal: "8%",
+    textAlign: "center",
   },
   inputContainer: {
     marginVertical: "2.4%",
