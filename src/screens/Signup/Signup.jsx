@@ -123,9 +123,9 @@ export default function Signup({ navigation }) {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Họ và tên</Text>
+          <Text style={styles.label}>Tên đại diện</Text>
           <TextInput
-            placeholder="Nguyễn A"
+            placeholder="Username"
             value={name}
             onChangeText={setName}
             style={styles.input}

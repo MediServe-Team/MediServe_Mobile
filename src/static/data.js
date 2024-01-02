@@ -9,13 +9,13 @@ export const imagesDataURL = [
 ];
 
 export const sampleProfile = {
-  name: "Alpha",
-  fullName: "Collins Fire",
-  gender: false,
-  dob: new Date("2002-11-20"),
-  phone: "0912567834",
-  address: "89 Hoàng Văn Thụ, Quận 1, thành phố Hồ Chí Minh",
-  avatarUrl: imagesDataURL[1],
+  name: "",
+  fullName: "",
+  gender: true,
+  dob: new Date(),
+  phone: "",
+  address: "",
+  avatarUrl: "",
 };
 
 export const sampleBlog = [

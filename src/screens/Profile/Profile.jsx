@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styles from "./StyleProfile";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
@@ -14,12 +14,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { imagesDataURL } from "../../static/data";
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
-import { sampleProfile } from "../../static/data";
 import Toast from "react-native-root-toast";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { BASE_URL } from "../../../baseURL";
+import { AuthContext } from "../../context/AuthContext";
+import theme from "../../config/theme";
+// import getBase64 from "../../utils/getBase64";
+import { sampleProfile } from "../../static/data";
 
 export default function Profile({ navigation }) {
+  const { userId } = useContext(AuthContext);
   const [openDob, setOpenDob] = useState(false);
+  const [info, setInfo] = useState();
+  const [base64, setBase64] = useState("");
+
   const sample = {
     name: sampleProfile.name,
     fullName: sampleProfile.fullName,
@@ -33,10 +41,22 @@ export default function Profile({ navigation }) {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: sample,
   });
+
+  const setDataForm = (info) => {
+    // set data in form
+    setValue("name", info.name);
+    setValue("fullName", info.fullName);
+    setValue("gender", info.gender);
+    setValue("dob", new Date(info.dateOfBirth));
+    setValue("phone", info.phoneNumber);
+    setValue("address", info.address);
+    setValue("avatarUrl", info.avatar);
+  };
 
   const toastSuccessSave = () => {
     Toast.show("Lưu thành công!", {
@@ -49,9 +69,52 @@ export default function Profile({ navigation }) {
     });
   };
 
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
+
+  const updateNewData = async (info) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/users/customer/update-profile/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: info.name,
+            fullName: info.fullName,
+            gender: info.gender,
+            dateOfBirth: info.dob,
+            phoneNumber: info.phone,
+            address: info.address,
+            avatar: base64,
+          }),
+        }
+      );
+      const result = await response.json();
+      if (result.status === 200 || result.status === 201) {
+        setInfo(result.data);
+        setDataForm(result.data);
+      } else {
+        console.log(result);
+        toastFail("5");
+      }
+    } catch (error) {
+      toastFail("Không thể cập nhật dữ liệu!");
+    }
+  };
+
   const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("Home");
+    updateNewData(data);
     toastSuccessSave();
   };
 
@@ -63,18 +126,84 @@ export default function Profile({ navigation }) {
         allowsEditing: true,
         aspect: [4, 4],
         quality: 1,
+        base64: true,
       });
 
       //console.log(result);
 
       if (!result.canceled) {
         await onChange(result.assets[0].uri);
+        setBase64("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       //alert("Error uploading image:" + error.message);
       console.log("looix");
     }
   };
+
+  const updateInfoUser = async () => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/users/customer/update-profile/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName: "",
+            gender: true,
+            dateOfBirth: new Date(),
+            phoneNumber: "",
+            address: "",
+            avatar: "",
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.status === 200 || data.status === 201) {
+        setInfo(data.data);
+        setDataForm(data.data);
+      } else {
+        toastFail("Không thể update dữ liệu!");
+      }
+    } catch (error) {
+      toastFail("Không thể update dữ liệu!");
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/users/customer/my-profile/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          if (data.data.gender === null) {
+            updateInfoUser();
+          } else {
+            setInfo(data.data);
+            setDataForm(data.data);
+          }
+        } else {
+          navigation.navigate("Home");
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        navigation.navigate("Home");
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.screensContainer}>
@@ -86,7 +215,10 @@ export default function Profile({ navigation }) {
           render={({ field: { onChange, onBlur, value } }) => (
             <View style={styles.imageContainer}>
               <TouchableOpacity onPress={() => handleImageSelection(onChange)}>
-                <Image style={styles.image} source={{ uri: value }} />
+                <Image
+                  style={styles.image}
+                  source={{ uri: value ? value : imagesDataURL[0] }}
+                />
 
                 <View style={styles.iconContainer}>
                   <FontAwesome5 name="camera" size={25} color="#000" />
@@ -101,7 +233,7 @@ export default function Profile({ navigation }) {
           <View style={styles.group}>
             <Text style={styles.titleInput}>Email</Text>
             <TextInput
-              value="abc@gmail.com"
+              value={info?.email}
               editable={false}
               style={[
                 styles.input,
@@ -189,11 +321,17 @@ export default function Profile({ navigation }) {
                     onPress={() => setOpenDob(true)}
                   >
                     <Text>
-                      {value.toLocaleString("default", { day: "2-digit" }) +
+                      {value.toLocaleString("default", {
+                        day: "2-digit",
+                      }) +
                         "-" +
-                        value.toLocaleString("default", { month: "2-digit" }) +
+                        value.toLocaleString("default", {
+                          month: "2-digit",
+                        }) +
                         "-" +
-                        value.toLocaleString("default", { year: "numeric" })}
+                        value.toLocaleString("default", {
+                          year: "numeric",
+                        })}
                     </Text>
                   </TouchableOpacity>
                   {openDob && (
