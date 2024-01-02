@@ -14,7 +14,7 @@ import DetailBlog from "../DetailBlog/DetailBlog";
 export default function CardBlog({ info }) {
   return (
     <>
-      <Image src={info.image} style={styles.imgCard} />
+      <Image src={info?.image} style={styles.imgCard} />
 
       <View
         style={{
@@ -24,7 +24,7 @@ export default function CardBlog({ info }) {
         }}
       >
         <Text numberOfLines={2} style={styles.title}>
-          {info.title}
+          {info?.title}
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -35,9 +35,9 @@ export default function CardBlog({ info }) {
               alignItems: "center",
             }}
           >
-            <Image style={styles.imgAuthor} src={info.imageAuthor} />
+            <Image style={styles.imgAuthor} src={info?.user?.avatar} />
             <Text style={{ fontWeight: "500", fontSize: 14 }}>
-              {info.nameAuthor}
+              {info?.user?.fullName}
             </Text>
           </View>
 
@@ -48,11 +48,17 @@ export default function CardBlog({ info }) {
                 color: "rgba(140, 140, 140, 1)",
               }}
             >
-              {info.datePost.toLocaleString("default", { day: "2-digit" }) +
+              {new Date(info?.updatedAt).toLocaleString("default", {
+                day: "2-digit",
+              }) +
                 "/" +
-                info.datePost.toLocaleString("default", { month: "2-digit" }) +
+                new Date(info?.updatedAt).toLocaleString("default", {
+                  month: "2-digit",
+                }) +
                 "/" +
-                info.datePost.toLocaleString("default", { year: "numeric" })}
+                new Date(info?.updatedAt).toLocaleString("default", {
+                  year: "numeric",
+                })}
             </Text>
           </View>
         </View>

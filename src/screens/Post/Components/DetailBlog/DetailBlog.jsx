@@ -12,10 +12,13 @@ import { useEffect, useState, useRef } from "react";
 import { sampleBlog } from "../../../../static/data";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./StyleDetailBlog";
+import { BASE_URL } from "../../../../../baseURL";
+import Toast from "react-native-root-toast";
+import theme from "../../../../config/theme";
 
 export default function DetailBlog({ route, navigation }) {
   const id = route.params.idBlog;
-  const [data, setData] = useState(null);
+  const [info, setInfo] = useState(null);
   const [scrollDown, setScrollDown] = useState(false);
   const scrollRef = useRef();
 
@@ -36,14 +39,43 @@ export default function DetailBlog({ route, navigation }) {
     }
   };
 
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
+
   useEffect(() => {
-    const result = sampleBlog.filter((i) => i.id === id);
-    setData(result[0]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/blogs/detail/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setInfo(data.data);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
     <>
-      {data && (
+      {info && (
         <>
           <ScrollView
             scroll
@@ -51,7 +83,7 @@ export default function DetailBlog({ route, navigation }) {
             ref={scrollRef}
             style={{ flex: 1 }}
           >
-            <ImageBackground src={data.image} style={styles.image}>
+            <ImageBackground src={info?.image} style={styles.image}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Ionicons
                   name="arrow-back-circle-sharp"
@@ -62,39 +94,40 @@ export default function DetailBlog({ route, navigation }) {
             </ImageBackground>
 
             <View style={styles.containerContent}>
-              <Text style={styles.title}>{data.title}</Text>
+              <Text style={styles.title}>{info?.title}</Text>
 
               <View style={styles.containerAuthor}>
                 <View style={styles.author}>
-                  <Image style={styles.imgAuthor} src={data.imageAuthor} />
+                  <Image style={styles.imgAuthor} src={info?.user?.avatar} />
                   <Text style={{ fontWeight: "600", fontSize: 15 }}>
-                    {data.nameAuthor}
+                    {info?.user?.fullName}
                   </Text>
                 </View>
 
                 <View style={{ justifyContent: "center" }}>
                   <Text style={styles.textDate}>
-                    {data.datePost.toLocaleString("default", {
+                    {new Date(info?.updatedAt).toLocaleString("default", {
                       day: "2-digit",
                     }) +
                       "-" +
-                      data.datePost.toLocaleString("default", {
+                      new Date(info?.updatedAt).toLocaleString("default", {
                         month: "2-digit",
                       }) +
                       "-" +
-                      data.datePost.toLocaleString("default", {
+                      new Date(info?.updatedAt).toLocaleString("default", {
                         year: "numeric",
                       })}
                   </Text>
                 </View>
               </View>
 
-              {data.content.length > 0 &&
+              {/* {info.content.length > 0 &&
                 data.content.map((i, index) => (
                   <Text style={styles.textContent} key={index}>
                     {i}
                   </Text>
-                ))}
+                ))} */}
+              <Text style={styles.textContent}>{info.content}</Text>
             </View>
           </ScrollView>
 

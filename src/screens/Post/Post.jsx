@@ -12,15 +12,53 @@ import styles from "./StylePost";
 import { imagesDataURL, sampleBlog } from "../../static/data";
 import MUI from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import CardBlog from "./Components/CardBlog/CardBlog";
 import { useScrollToTop } from "@react-navigation/native";
+import { BASE_URL } from "../../../baseURL";
+import Toast from "react-native-root-toast";
+import theme from "../../config/theme";
 
 export default function Post({ navigation }) {
   const [active, setActive] = useState(true);
+  const [listBlogs, setListBlogs] = useState([]);
   const ref = useRef(null);
 
   useScrollToTop(ref);
+
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/blogs/view-all`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setListBlogs(data.data.filter((i) => i.visibility === true));
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -45,8 +83,8 @@ export default function Post({ navigation }) {
           <Text style={styles.title}>Blogs</Text>
 
           <View style={{ gap: 30 }}>
-            {sampleBlog.length > 0 &&
-              sampleBlog.map((info, index) => (
+            {listBlogs.length > 0 &&
+              listBlogs.map((info, index) => (
                 <TouchableOpacity
                   key={index}
                   onPress={() => {
