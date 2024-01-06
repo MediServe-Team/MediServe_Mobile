@@ -7,7 +7,6 @@ import { formatNumber } from "../../../../utils/formatNumber";
 export default function ContentOrder({
   status,
   data,
-  setData,
   searchValue,
   isSearched,
   navigation,
@@ -188,154 +187,16 @@ export default function ContentOrder({
     );
   };
 
-  const renderReceive = (i, index) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        style={[styles.card, { height: 145 }]}
-        onPress={() => navigation.navigate("DetailOrder", { idOrder: i.id })}
-      >
-        <View style={styles.containerInfo}>
-          <View style={styles.containerLeft}>
-            <View style={{ flexDirection: "row", gap: 10 }}>
-              <Image
-                source={require("../../../../../assets/logo.png")}
-                style={{ width: 34, height: 22 }}
-              />
-              <Text style={styles.textName} numberOfLines={1}>
-                {i.name}
-              </Text>
-            </View>
-            <Text style={styles.textStaff} numberOfLines={1}>
-              Kê bởi: {i.staff}
-            </Text>
-
-            <Text style={styles.textTime} numberOfLines={1}>
-              Thời gian kê đơn:
-              {" " + i.timeOrder.toLocaleTimeString("en-US", { hour12: false })}
-            </Text>
-
-            <Text style={styles.textDate} numberOfLines={1}>
-              Ngày kê đơn:
-              {" " +
-                i.dateOrder.toLocaleString("default", { day: "2-digit" }) +
-                "/" +
-                i.dateOrder.toLocaleString("default", { month: "2-digit" }) +
-                "/" +
-                i.dateOrder.toLocaleString("default", { year: "numeric" })}
-            </Text>
-          </View>
-
-          <View style={styles.containerRight}>
-            <View style={[styles.contentRight, { borderBottomWidth: 1 }]}>
-              <Text style={styles.titleRight}>Tổng cộng</Text>
-              <Text style={styles.textRight} numberOfLines={1}>
-                {i.numItems} sản phẩm
-              </Text>
-            </View>
-
-            <View style={[styles.contentRight, { borderTopWidth: 1 }]}>
-              <Text style={styles.titleRight}>Thành tiền</Text>
-              <Text style={styles.textRight} numberOfLines={1}>
-                {formatNumber(i.totalPrice)}đ
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={[styles.containerStatus, { borderBottomWidth: 0 }]}>
-          <Text style={[styles.textStatus, { color: "rgba(0, 218, 165, 1)" }]}>
-            Đã nhận hàng
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderCancel = (i, index) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        style={[styles.card, { height: 145 }]}
-        onPress={() => navigation.navigate("DetailOrder", { idOrder: i.id })}
-      >
-        <View style={styles.containerInfo}>
-          <View style={styles.containerLeft}>
-            <View style={{ flexDirection: "row", gap: 10 }}>
-              <Image
-                source={require("../../../../../assets/logo.png")}
-                style={{ width: 34, height: 22 }}
-              />
-              <Text style={styles.textName} numberOfLines={1}>
-                {i.name}
-              </Text>
-            </View>
-            <Text style={styles.textStaff} numberOfLines={1}>
-              Kê bởi: {i.staff}
-            </Text>
-
-            <Text style={styles.textTime} numberOfLines={1}>
-              Thời gian kê đơn:
-              {" " + i.timeOrder.toLocaleTimeString("en-US", { hour12: false })}
-            </Text>
-
-            <Text style={styles.textDate} numberOfLines={1}>
-              Ngày kê đơn:
-              {" " +
-                i.dateOrder.toLocaleString("default", { day: "2-digit" }) +
-                "/" +
-                i.dateOrder.toLocaleString("default", { month: "2-digit" }) +
-                "/" +
-                i.dateOrder.toLocaleString("default", { year: "numeric" })}
-            </Text>
-          </View>
-
-          <View style={styles.containerRight}>
-            <View style={[styles.contentRight, { borderBottomWidth: 1 }]}>
-              <Text style={styles.titleRight}>Tổng cộng</Text>
-              <Text style={styles.textRight} numberOfLines={1}>
-                {i.numItems} sản phẩm
-              </Text>
-            </View>
-
-            <View style={[styles.contentRight, { borderTopWidth: 1 }]}>
-              <Text style={styles.titleRight}>Thành tiền</Text>
-              <Text style={styles.textRight} numberOfLines={1}>
-                {formatNumber(i.totalPrice)}đ
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={[styles.containerStatus, { borderBottomWidth: 0 }]}>
-          <Text style={[styles.textStatus, { color: "rgba(255, 72, 47, 1)" }]}>
-            Đã hủy
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   const renderContent = () => {
     switch (status) {
-      case "wait_confirmed":
+      case "history_receipt":
         return confirm.length > 0
           ? confirm.map((i, index) => renderConfirm(i, index))
           : renderNoOrder();
         break;
-      case "wait_ordered":
+      case "history_prescription":
         return order.length > 0
           ? order.map((i, index) => renderOrder(i, index))
-          : renderNoOrder();
-        break;
-      case "received":
-        return receive.length > 0
-          ? receive.map((i, index) => renderReceive(i, index))
-          : renderNoOrder();
-        break;
-      case "cancelled":
-        return cancel.length > 0
-          ? cancel.map((i, index) => renderCancel(i, index))
           : renderNoOrder();
         break;
       default:

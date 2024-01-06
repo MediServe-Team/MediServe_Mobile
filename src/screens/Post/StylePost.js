@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   containerContent: {
     flex: 1,
     paddingHorizontal: 35,
-    paddingVertical: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
     gap: 15,
   },
   containerLogo: {
@@ -78,6 +79,36 @@ const styles = StyleSheet.create({
   },
   status: { flexDirection: "row", gap: 20 },
   titleStatus: { flexDirection: "row", gap: 10 },
+  searchSection: {
+    flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+  },
+  searchPallet: {
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+    borderRadius: 10,
+    gap: 10,
+    backgroundColor: "rgba(242, 242, 242, 1)",
+  },
+  searchIconArea: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchInput: {
+    flex: 1,
+    height: 37,
+    fontSize: 17,
+    fontWeight: "500",
+  },
+  clearButton: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default styles;

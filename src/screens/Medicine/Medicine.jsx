@@ -15,10 +15,15 @@ import { useEffect, useState, useRef } from "react";
 import { Picker } from "@react-native-picker/picker";
 import CardItem from "./components/CardItem/CardItem";
 import { useScrollToTop } from "@react-navigation/native";
+import { BASE_URL } from "../../../baseURL";
+import Toast from "react-native-root-toast";
+import theme from "../../config/theme";
 
 export default function Medicine({ navigation }) {
-  const [listCategory, setListCategory] = useState(sampleCategory);
-  const [listItem, setListItem] = useState(sampleItem);
+  const [allCategory, setAllCategory] = useState([]);
+  const [listCategory, setListCategory] = useState([]);
+  const [allItem, setAllItem] = useState([]);
+  const [listItem, setListItem] = useState([]);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -45,7 +50,7 @@ export default function Medicine({ navigation }) {
   };
 
   const handleSearchSubmit = () => {
-    let items = sampleItem;
+    let items = allItem;
 
     if (status !== "ALL") {
       items = items.filter((i) => i.itemType === status);
@@ -63,21 +68,28 @@ export default function Medicine({ navigation }) {
     );
   };
 
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
+
   useEffect(() => {
     setCategory("Danh mục");
-    let items = sampleItem;
+    let items = allItem;
 
     if (status === "ALL") {
-      setListCategory(sampleCategory);
+      setListCategory(allCategory);
     } else if (status === "MEDICINE") {
-      setListCategory(() =>
-        sampleCategory.filter((i) => i.isMedicine === true)
-      );
+      setListCategory(() => allCategory.filter((i) => i.isMedicine === true));
       items = items.filter((i) => i.itemType === "MEDICINE");
     } else {
-      setListCategory(() =>
-        sampleCategory.filter((i) => i.isMedicine === false)
-      );
+      setListCategory(() => allCategory.filter((i) => i.isMedicine === false));
       items = items.filter((i) => i.itemType === "PRODUCT");
     }
 
@@ -91,7 +103,7 @@ export default function Medicine({ navigation }) {
   }, [status]);
 
   useEffect(() => {
-    let items = sampleItem;
+    let items = allItem;
 
     if (status !== "ALL") {
       items = items.filter((i) => i.itemType === status);
@@ -110,6 +122,51 @@ export default function Medicine({ navigation }) {
 
     setListItem(items);
   }, [category]);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/categories/all`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllCategory(data.data);
+          setListCategory(data.data);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    const fetchItem = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/items/filter`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllItem(data.data);
+          setListItem(data.data);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchCategory();
+    fetchItem();
+  }, []);
 
   return (
     <View style={styles.container}>

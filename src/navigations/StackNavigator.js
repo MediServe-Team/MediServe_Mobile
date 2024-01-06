@@ -7,6 +7,8 @@ import Item from "../screens/Medicine/Medicine";
 import DetailItem from "../screens/Medicine/components/DetailItem/DetailItem";
 import Order from "../screens/Order/Order";
 import DetailOrder from "../screens/Order/components/DetailOrder/DetailOrder";
+import DetailReceipt from "../screens/Order/components/DetailReceipt/DetailReceipt";
+import DetailPrescription from "../screens/Order/components/DetailPrescription/DetailPrescription";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +55,8 @@ export function OrderStackNavigator() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="ListOrder" component={Order} />
-      <Stack.Screen name="DetailOrder" component={DetailOrder} />
+      <Stack.Screen name="DetailReceipt" component={DetailReceipt} />
+      <Stack.Screen name="DetailPrescription" component={DetailPrescription} />
     </Stack.Navigator>
   );
 }

@@ -10,6 +10,9 @@ import { useEffect, useState, useRef } from "react";
 import { sampleItem, sampleCategory } from "../../../../static/data";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./StyleDetailItem";
+import { BASE_URL } from "../../../../../baseURL";
+import theme from "../../../../config/theme";
+import Toast from "react-native-root-toast";
 
 export default function DetailItem({ route, navigation }) {
   const id = route.params.idItem;
@@ -35,13 +38,63 @@ export default function DetailItem({ route, navigation }) {
     }
   };
 
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
+
   useEffect(() => {
-    const result = sampleItem.find((i) => i.id === id);
-    if (result) {
-      setData(result);
-      const c = sampleCategory.find((i) => i.id === result.categoryId);
-      setCategory(c.categoryName);
-    }
+    const fetchCategory = async (idCate) => {
+      try {
+        const response = await fetch(`${BASE_URL}/categories/${idCate}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setCategory(data.data.categoryName);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    const fetchItem = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/items/filter`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const d = await response.json();
+        if (d.status === 200 || d.status === 201) {
+          const re = d.data.find((i) => i.id === id);
+          if (re) {
+            setData(re);
+            fetchCategory(re?.categoryId);
+          } else {
+            toastFail("Không thể lấy dữ liệu!");
+          }
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchItem();
   }, []);
 
   return (

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: 5,
     right: 10,
     zIndex: 999,
   },

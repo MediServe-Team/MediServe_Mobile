@@ -6,47 +6,149 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { imagesDataURL, sampleOrder } from "../../static/data";
 import styles from "./StyleOrder";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useScrollToTop } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import ContentOrder from "./components/ContentOrder/ContentOrder";
+import { BASE_URL } from "../../../baseURL";
+import Toast from "react-native-root-toast";
+import theme from "../../config/theme";
+import { AuthContext } from "../../context/AuthContext";
+import ContentReceipt from "./components/ContentReceipt/ContentReceipt";
+import ContentPrescription from "./components/ContentPrescription/ContentPrescription";
 
 export default function Order({ navigation }) {
   const ref = useRef(null);
-  useScrollToTop(ref);
-  const [data, setData] = useState(sampleOrder);
 
-  const [status, setStatus] = useState("wait_confirmed");
+  useScrollToTop(ref);
+  const { userId } = useContext(AuthContext);
+  const [allReceipts, setAllReceipts] = useState([]);
+  const [allPrescriptions, setAllPrescriptions] = useState([]);
+  const [order, setOrder] = useState([]);
+
+  const [status, setStatus] = useState("history_receipt");
   const [searchValue, setSearchValue] = useState("");
 
-  const [isSearched, setIsSearched] = useState(false);
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
 
   const handleClear = () => {
     setSearchValue("");
   };
 
-  const handleWaitConfirmed = () => {
-    setStatus("wait_confirmed");
+  const handleReceipt = () => {
+    setStatus("history_receipt");
+    let items = allReceipts;
+    if (searchValue.trim() !== "") {
+      items = items.filter(
+        (i) =>
+          i.id.includes(searchValue.trim()) ||
+          i.staff.fullName
+            .toLowerCase()
+            .includes(searchValue.trim().toLowerCase())
+      );
+    }
+    setOrder(items);
   };
 
-  const handleWaitOrdered = () => {
-    setStatus("wait_ordered");
-  };
-
-  const handleReceived = () => {
-    setStatus("received");
-  };
-
-  const handleCancelled = () => {
-    setStatus("cancelled");
+  const handlePrescription = () => {
+    setStatus("history_prescription");
+    let items = allPrescriptions;
+    if (searchValue.trim() !== "") {
+      items = items.filter(
+        (i) =>
+          i.diagnose.toLowerCase().includes(searchValue.trim().toLowerCase()) ||
+          i.staff.fullName
+            .toLowerCase()
+            .includes(searchValue.trim().toLowerCase())
+      );
+    }
+    setOrder(items);
   };
 
   const handleSearchSubmit = () => {
-    setIsSearched((pre) => !pre);
+    if (status === "history_receipt") {
+      setOrder(() =>
+        allReceipts.filter(
+          (i) =>
+            i.id.toString().includes(searchValue.trim()) ||
+            i.staff.fullName
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase())
+        )
+      );
+    } else {
+      setOrder(() =>
+        allPrescriptions.filter(
+          (i) =>
+            i.diagnose
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()) ||
+            i.staff.fullName
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase())
+        )
+      );
+    }
   };
+
+  useEffect(() => {
+    const fetchReceipt = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/me/receipts/user/${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllReceipts(data.data);
+          setOrder(data.data);
+        } else {
+          console.log("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        console.log("Không thể lấy dữ liệu!");
+      }
+    };
+
+    const fetchPrescription = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/me/prescriptions/user/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllPrescriptions(data.data);
+        } else {
+          console.log("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        console.log("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchReceipt();
+    fetchPrescription();
+  }, []);
 
   return (
     <ScrollView ref={ref} style={styles.scrollView}>
@@ -105,43 +207,29 @@ export default function Order({ navigation }) {
         <Text
           style={[
             styles.text,
-            status === "wait_confirmed" && styles.textHighlight,
+            status === "history_receipt" && styles.textHighlight,
           ]}
-          onPress={handleWaitConfirmed}
+          onPress={handleReceipt}
         >
-          Chờ xác nhận
+          Lịch sử hóa đơn
         </Text>
+
         <Text
           style={[
             styles.text,
-            status === "wait_ordered" && styles.textHighlight,
+            status === "history_prescription" && styles.textHighlight,
           ]}
-          onPress={handleWaitOrdered}
+          onPress={handlePrescription}
         >
-          Chờ giao hàng
-        </Text>
-        <Text
-          style={[styles.text, status === "received" && styles.textHighlight]}
-          onPress={handleReceived}
-        >
-          Đã giao
-        </Text>
-        <Text
-          style={[styles.text, status === "cancelled" && styles.textHighlight]}
-          onPress={handleCancelled}
-        >
-          Đã hủy
+          Lịch sử kê đơn
         </Text>
       </View>
 
-      <ContentOrder
-        status={status}
-        data={data}
-        setData={setData}
-        searchValue={searchValue}
-        isSearched={isSearched}
-        navigation={navigation}
-      />
+      {status === "history_receipt" ? (
+        <ContentReceipt data={order} navigation={navigation} />
+      ) : (
+        <ContentPrescription data={order} navigation={navigation} />
+      )}
     </ScrollView>
   );
 }

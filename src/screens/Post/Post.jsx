@@ -4,9 +4,8 @@ import {
   ImageBackground,
   ScrollView,
   TouchableOpacity,
-  Image,
+  TextInput,
   Platform,
-  Alert,
 } from "react-native";
 import styles from "./StylePost";
 import { imagesDataURL, sampleBlog } from "../../static/data";
@@ -21,10 +20,24 @@ import theme from "../../config/theme";
 
 export default function Post({ navigation }) {
   const [active, setActive] = useState(true);
+  const [allBlogs, setAllBlogs] = useState([]);
   const [listBlogs, setListBlogs] = useState([]);
   const ref = useRef(null);
+  const [searchValue, setSearchValue] = useState("");
 
   useScrollToTop(ref);
+
+  const handleClear = () => {
+    setSearchValue("");
+  };
+
+  const handleSearchSubmit = () => {
+    setListBlogs(() =>
+      allBlogs.filter((i) =>
+        i.title.toLowerCase().includes(searchValue.trim().toLowerCase())
+      )
+    );
+  };
 
   const toastFail = (mess) => {
     Toast.show(mess, {
@@ -48,7 +61,8 @@ export default function Post({ navigation }) {
         });
         const data = await response.json();
         if (data.status === 200 || data.status === 201) {
-          setListBlogs(data.data.filter((i) => i.visibility === true));
+          setAllBlogs(data.data);
+          setListBlogs(data.data);
         } else {
           toastFail("Không thể lấy dữ liệu!");
         }
@@ -78,6 +92,42 @@ export default function Post({ navigation }) {
             </Text>
           </View>
         </ImageBackground>
+
+        <View style={styles.searchSection}>
+          <View style={styles.searchPallet}>
+            <TouchableOpacity
+              style={styles.searchIconArea}
+              onPress={handleSearchSubmit}
+            >
+              <FontAwesome5
+                name="search"
+                size={20}
+                color={"rgba(194, 193, 193, 1)"}
+              />
+            </TouchableOpacity>
+
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Tìm kiếm"
+              value={searchValue}
+              onChangeText={setSearchValue}
+              onSubmitEditing={handleSearchSubmit}
+            />
+
+            {searchValue.length > 0 && (
+              <TouchableOpacity
+                style={styles.clearButton}
+                onPress={handleClear}
+              >
+                <FontAwesome5
+                  name="times-circle"
+                  size={20}
+                  color={"rgba(194, 193, 193, 1)"}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
 
         <View style={styles.containerContent}>
           <Text style={styles.title}>Blogs</Text>

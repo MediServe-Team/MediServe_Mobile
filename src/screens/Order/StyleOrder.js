@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   menu: {
     flexDirection: "row",
-    gap: 20,
+    justifyContent: "space-around",
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: "#ffffff",

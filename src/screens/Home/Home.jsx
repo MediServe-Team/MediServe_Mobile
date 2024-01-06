@@ -10,10 +10,49 @@ import styles from "./StyleHome";
 import { imagesDataURL } from "../../static/data";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { BASE_URL } from "../../../baseURL";
+import Toast from "react-native-root-toast";
+import theme from "../../config/theme";
 
 export default function Home({ navigation }) {
   const [active, setActive] = useState(true);
+
+  const toastFail = (mess) => {
+    Toast.show(mess, {
+      duration: 1000,
+      delay: 500,
+      backgroundColor: theme.colors.danger,
+      textColor: "#fff",
+      textStyle: { fontWeight: "500" },
+      position: -40,
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = navigation.addListener("state", async (e) => {
+      try {
+        const response = await fetch(`${BASE_URL}/stores/activity`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setActive(data?.data.isOpen);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    });
+
+    return () => {
+      fetchData();
+    };
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

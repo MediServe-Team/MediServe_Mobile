@@ -19,7 +19,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { BASE_URL } from "../../../baseURL";
 import { AuthContext } from "../../context/AuthContext";
 import theme from "../../config/theme";
-// import getBase64 from "../../utils/getBase64";
 import { sampleProfile } from "../../static/data";
 
 export default function Profile({ navigation }) {
@@ -173,7 +172,7 @@ export default function Profile({ navigation }) {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const unsubscribe = navigation.addListener("state", async (e) => {
       try {
         const response = await fetch(
           `${BASE_URL}/users/customer/my-profile/${userId}`,
@@ -200,10 +199,12 @@ export default function Profile({ navigation }) {
         navigation.navigate("Home");
         toastFail("Không thể lấy dữ liệu!");
       }
-    };
+    });
 
-    fetchData();
-  }, []);
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.screensContainer}>
@@ -220,9 +221,9 @@ export default function Profile({ navigation }) {
                   source={{ uri: value ? value : imagesDataURL[0] }}
                 />
 
-                <View style={styles.iconContainer}>
+                {/* <View style={styles.iconContainer}>
                   <FontAwesome5 name="camera" size={25} color="#000" />
-                </View>
+                </View> */}
               </TouchableOpacity>
             </View>
           )}
