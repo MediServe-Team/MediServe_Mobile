@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  RefreshControl,
 } from "react-native";
 import styles from "./StylePost";
 import { imagesDataURL, sampleBlog } from "../../static/data";
 import MUI from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import CardBlog from "./Components/CardBlog/CardBlog";
 import { useScrollToTop } from "@react-navigation/native";
 import { BASE_URL } from "../../../baseURL";
@@ -24,6 +25,7 @@ export default function Post({ navigation }) {
   const [listBlogs, setListBlogs] = useState([]);
   const ref = useRef(null);
   const [searchValue, setSearchValue] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   useScrollToTop(ref);
 
@@ -49,6 +51,37 @@ export default function Post({ navigation }) {
       position: -40,
     });
   };
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setSearchValue("");
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/blogs/view-all`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllBlogs(data.data);
+          setListBlogs(data.data);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchData();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +109,13 @@ export default function Post({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView} ref={ref}>
+      <ScrollView
+        style={styles.scrollView}
+        ref={ref}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <ImageBackground
           source={{ uri: imagesDataURL[3] }}
           resizeMode="cover"

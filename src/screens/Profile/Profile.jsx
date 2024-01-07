@@ -5,8 +5,9 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  RefreshControl,
 } from "react-native";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import styles from "./StyleProfile";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
@@ -26,6 +27,7 @@ export default function Profile({ navigation }) {
   const [openDob, setOpenDob] = useState(false);
   const [info, setInfo] = useState();
   const [base64, setBase64] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const sample = {
     name: sampleProfile.name,
@@ -171,6 +173,38 @@ export default function Profile({ navigation }) {
     }
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      const response = await fetch(
+        `${BASE_URL}/users/customer/my-profile/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (data.status === 200 || data.status === 201) {
+        if (data.data.gender === null) {
+          updateInfoUser();
+        } else {
+          setInfo(data.data);
+          setDataForm(data.data);
+        }
+      } else {
+        navigation.navigate("Home");
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    } catch (error) {
+      navigation.navigate("Home");
+    }
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("state", async (e) => {
       try {
@@ -208,7 +242,11 @@ export default function Profile({ navigation }) {
 
   return (
     <SafeAreaView style={styles.screensContainer}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <Text style={styles.title}>Chỉnh sửa thông tin cá nhân</Text>
 
         <Controller

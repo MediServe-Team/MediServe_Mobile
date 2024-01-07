@@ -6,7 +6,6 @@ import DetailBlog from "../screens/Post/Components/DetailBlog/DetailBlog";
 import Item from "../screens/Medicine/Medicine";
 import DetailItem from "../screens/Medicine/components/DetailItem/DetailItem";
 import Order from "../screens/Order/Order";
-import DetailOrder from "../screens/Order/components/DetailOrder/DetailOrder";
 import DetailReceipt from "../screens/Order/components/DetailReceipt/DetailReceipt";
 import DetailPrescription from "../screens/Order/components/DetailPrescription/DetailPrescription";
 

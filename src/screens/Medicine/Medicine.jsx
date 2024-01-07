@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  RefreshControl,
 } from "react-native";
 import styles from "./StyleMedicine";
 import { imagesDataURL, sampleItem, sampleCategory } from "../../static/data";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Picker } from "@react-native-picker/picker";
 import CardItem from "./components/CardItem/CardItem";
 import { useScrollToTop } from "@react-navigation/native";
@@ -29,6 +30,7 @@ export default function Medicine({ navigation }) {
 
   const [status, setStatus] = useState("ALL");
   const [category, setCategory] = useState("Danh mục");
+  const [refreshing, setRefreshing] = useState(false);
 
   const ref = useRef(null);
   useScrollToTop(ref);
@@ -78,6 +80,59 @@ export default function Medicine({ navigation }) {
       position: -40,
     });
   };
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setSearchValue("");
+
+    const fetchCategory = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/categories/all`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllCategory(data.data);
+          setListCategory(data.data);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    const fetchItem = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/items/filter`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllItem(data.data);
+          setListItem(data.data);
+        } else {
+          toastFail("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchCategory();
+    fetchItem();
+    handleAll();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     setCategory("Danh mục");
@@ -170,7 +225,13 @@ export default function Medicine({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView} ref={ref}>
+      <ScrollView
+        style={styles.scrollView}
+        ref={ref}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <ImageBackground
           source={{ uri: imagesDataURL[5] }}
           resizeMode="cover"

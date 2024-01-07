@@ -5,14 +5,14 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
+  RefreshControl,
 } from "react-native";
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect, useContext, useCallback } from "react";
 import { imagesDataURL, sampleOrder } from "../../static/data";
 import styles from "./StyleOrder";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useScrollToTop } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import ContentOrder from "./components/ContentOrder/ContentOrder";
 import { BASE_URL } from "../../../baseURL";
 import Toast from "react-native-root-toast";
 import theme from "../../config/theme";
@@ -31,6 +31,7 @@ export default function Order({ navigation }) {
 
   const [status, setStatus] = useState("history_receipt");
   const [searchValue, setSearchValue] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const toastFail = (mess) => {
     Toast.show(mess, {
@@ -103,6 +104,61 @@ export default function Order({ navigation }) {
     }
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setSearchValue("");
+    setStatus("history_receipt");
+
+    const fetchReceipt = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/me/receipts/user/${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllReceipts(data.data);
+          setOrder(data.data);
+        } else {
+          console.log("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        console.log("Không thể lấy dữ liệu!");
+      }
+    };
+
+    const fetchPrescription = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/me/prescriptions/user/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        if (data.status === 200 || data.status === 201) {
+          setAllPrescriptions(data.data);
+        } else {
+          console.log("Không thể lấy dữ liệu!");
+        }
+      } catch (error) {
+        console.log("Không thể lấy dữ liệu!");
+      }
+    };
+
+    fetchReceipt();
+    fetchPrescription();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
+
   useEffect(() => {
     const fetchReceipt = async () => {
       try {
@@ -151,7 +207,13 @@ export default function Order({ navigation }) {
   }, []);
 
   return (
-    <ScrollView ref={ref} style={styles.scrollView}>
+    <ScrollView
+      ref={ref}
+      style={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <ImageBackground
         source={{ uri: imagesDataURL[6] }}
         resizeMode="cover"

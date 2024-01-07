@@ -5,18 +5,20 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  RefreshControl,
 } from "react-native";
 import styles from "./StyleHome";
 import { imagesDataURL } from "../../static/data";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BASE_URL } from "../../../baseURL";
 import Toast from "react-native-root-toast";
 import theme from "../../config/theme";
 
 export default function Home({ navigation }) {
   const [active, setActive] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const toastFail = (mess) => {
     Toast.show(mess, {
@@ -28,6 +30,31 @@ export default function Home({ navigation }) {
       position: -40,
     });
   };
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+
+    try {
+      const response = await fetch(`${BASE_URL}/stores/activity`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status === 200 || data.status === 201) {
+        setActive(data?.data.isOpen);
+      } else {
+        toastFail("Không thể lấy dữ liệu!");
+      }
+    } catch (error) {
+      toastFail("Không thể lấy dữ liệu!");
+    }
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     const fetchData = navigation.addListener("state", async (e) => {
@@ -56,7 +83,12 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <ImageBackground
           source={{ uri: imagesDataURL[2] }}
           resizeMode="cover"
