@@ -184,16 +184,16 @@ export default function DetailItem({ route, navigation }) {
                 </Text>
               </View>
 
-              <View style={styles.containerLine}>
+              <View style={styles.containerCol}>
                 <Text style={styles.title}>Chức năng:</Text>
-                <Text style={[styles.textContent, { textAlign: "justify" }]}>
+                <Text style={[styles.textContentCol, { textAlign: "justify" }]}>
                   {data.itemFunction === "" ? "Không có" : data.itemFunction}
                 </Text>
               </View>
 
-              <View style={styles.containerLine}>
+              <View style={styles.containerCol}>
                 <Text style={styles.title}>Ghi chú:</Text>
-                <Text style={[styles.textContent, { textAlign: "justify" }]}>
+                <Text style={[styles.textContentCol, { textAlign: "justify" }]}>
                   {data.note === "" ? "Không có" : data.note}
                 </Text>
               </View>

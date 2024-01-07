@@ -20,7 +20,21 @@ const styles = StyleSheet.create({
   },
   imgCard: {
     width: "100%",
-    height: 150,
+    height: 200,
+  },
+  imgLinear: {
+    width: "100%",
+    minHeight: 200,
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textStatus: {
+    color: "#fff",
+    fontWeight: "500",
+    fontSize: 18,
+    textAlign: "center"
   },
   imgAuthor: {
     borderRadius: 999,

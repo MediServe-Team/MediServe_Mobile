@@ -6,15 +6,31 @@ import {
   Platform,
   Alert,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 import React from "react";
 import styles from "./StyleCardBlog";
 import { imagesDataURL } from "../../../../static/data";
 import DetailBlog from "../DetailBlog/DetailBlog";
 
+const BG_IMG_COLORS = {
+  blue: ['#00B37D', '#1F98DC'],
+  yellow: ['#DBD41E', '#B34000'],
+  pink: ['#E9AFDC', '#C51BA0'],
+  gray: ['#C8CECC', '#4A4C4D'],
+  green: ['#A8FBB0', '#207518'],
+  purple: ['#9C70A0', '#770865'],
+};
+
 export default function CardBlog({ info }) {
   return (
     <>
-      <Image src={info?.image} style={styles.imgCard} />
+      {
+        info?.image ?
+        <LinearGradient colors={BG_IMG_COLORS[info.image]} style={styles.imgLinear}>
+          <Text numberOfLines={5} ellipsizeMode="tail" style={styles.textStatus}>{info?.content}</Text>
+        </LinearGradient>:
+        <Image src={info?.BlogImages[0]?.imageUrl} style={styles.imgCard} />
+      }
 
       <View
         style={{

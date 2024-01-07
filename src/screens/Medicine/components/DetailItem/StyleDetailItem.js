@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
   },
+  containerCol: {
+    flexDirection: "column",
+    gap: 10,
+  },
   title: {
     fontWeight: "500",
     fontSize: 18,
@@ -31,6 +35,14 @@ const styles = StyleSheet.create({
   },
   textContent: {
     width: "55%",
+    fontWeight: "400",
+    fontSize: 18,
+    textAlignVertical: "top",
+    flexShrink: 1,
+    lineHeight: 30,
+  },
+  textContentCol: {
+    paddingHorizontal: 20,
     fontWeight: "400",
     fontSize: 18,
     textAlignVertical: "top",

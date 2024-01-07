@@ -48,8 +48,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     //backgroundColor: "rgba(210, 234, 255, 1)",
     backgroundColor: "#ffffff",
+    overflow: "hidden",
     width: "100%",
-    height: 254,
+    height: 300,
   },
   cardIos: {
     shadowOffset: { width: 0, height: 4 },

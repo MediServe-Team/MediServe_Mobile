@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 245,
     paddingTop: 5,
-    paddingLeft: 7,
+    // paddingLeft: 7,
   },
   imgAuthor: {
     borderRadius: 999,
@@ -50,6 +50,22 @@ const styles = StyleSheet.create({
     color: "rgba(140, 140, 140, 1)",
     fontSize: 15,
   },
+  //* List sub image
+  wrapListImg: {
+    display:"flex", 
+    flexDirection: "row", 
+    gap: 10, 
+    margin: 10
+  },
+  imgTouchable:{
+    width: "20%", 
+    borderRadius: 4, 
+    overflow: "hidden" 
+  },
+  subImg: {
+    width: "100%", 
+    height: 70
+  }
 });
 
 export default styles;

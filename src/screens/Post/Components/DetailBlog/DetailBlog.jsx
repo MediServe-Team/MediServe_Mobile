@@ -20,6 +20,7 @@ export default function DetailBlog({ route, navigation }) {
   const id = route.params.idBlog;
   const [info, setInfo] = useState(null);
   const [scrollDown, setScrollDown] = useState(false);
+  const [mainImg, setMainImg] = useState("");
   const scrollRef = useRef();
 
   const goToTop = () => {
@@ -62,6 +63,9 @@ export default function DetailBlog({ route, navigation }) {
         const data = await response.json();
         if (data.status === 200 || data.status === 201) {
           setInfo(data.data);
+          if(data?.data?.BlogImages[0]){
+            setMainImg(data.data.BlogImages[0].imageUrl)
+          }
         } else {
           toastFail("Không thể lấy dữ liệu!");
         }
@@ -73,6 +77,10 @@ export default function DetailBlog({ route, navigation }) {
     fetchData();
   }, []);
 
+  const handlePickImage = (value) => {
+    setMainImg(value);
+  }
+
   return (
     <>
       {info && (
@@ -83,15 +91,36 @@ export default function DetailBlog({ route, navigation }) {
             ref={scrollRef}
             style={{ flex: 1 }}
           >
-            <ImageBackground src={info?.image} style={styles.image}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons
-                  name="arrow-back-circle-sharp"
-                  size={45}
-                  color={"#b6bab7"}
-                />
-              </TouchableOpacity>
-            </ImageBackground>
+            {
+              (info?.BlogImages && info?.BlogImages.length > 0) ?
+              <View>
+                <ImageBackground src={mainImg} style={styles.image}>
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons
+                      name="arrow-back-circle-sharp"
+                      size={45}
+                      color={"#b6bab7"}
+                    />
+                  </TouchableOpacity>
+                </ImageBackground>
+                <View style={styles.wrapListImg}>
+                {
+                  info.BlogImages.map((img, index) => 
+                    <TouchableOpacity key={index} style={styles.imgTouchable} onPress={() => handlePickImage(img.imageUrl)}>
+                      <ImageBackground src={img.imageUrl} style={styles.subImg}></ImageBackground>
+                    </TouchableOpacity>)
+                }
+                </View>
+              </View>
+            :
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name="arrow-back-circle-sharp"
+                size={45}
+                color={"#b6bab7"}
+              />
+            </TouchableOpacity>
+            } 
 
             <View style={styles.containerContent}>
               <Text style={styles.title}>{info?.title}</Text>
