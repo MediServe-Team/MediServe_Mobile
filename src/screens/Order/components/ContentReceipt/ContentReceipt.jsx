@@ -86,7 +86,7 @@ export default function ContentReceipt({ data, navigation }) {
             </View>
 
             <View style={[styles.contentRight, { borderTopWidth: 1 }]}>
-              <Text style={styles.titleRight}>Tiền khách đưa</Text>
+              <Text style={styles.titleRight}>Tiền đã đưa</Text>
               <Text style={styles.textRight} numberOfLines={1}>
                 {formatNumber(i.givenByCustomer)}đ
               </Text>

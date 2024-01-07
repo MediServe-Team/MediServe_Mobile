@@ -275,7 +275,7 @@ export default function DetailReceipt({ navigation, route }) {
             </View>
 
             <View style={styles.containerPrice}>
-              <Text style={styles.textPrice}>Tiền khách đưa:</Text>
+              <Text style={styles.textPrice}>Tiền đã đưa:</Text>
               <Text style={styles.textPrice} numberOfLines={1}>
                 {formatNumber(dataOrder.givenByCustomer)}đ
               </Text>
