@@ -207,17 +207,30 @@ export default function DetailPrescription({ navigation, route }) {
             </View>
           )}
 
-          <View style={styles.containerPrice}>
-            <Text style={styles.textPrice}>Tổng tiền:</Text>
-            <Text style={styles.textPrice} numberOfLines={1}>
-              {formatNumber(
-                dataOrder.MedicineGuideSells.reduce(
-                  (accumulator, item) => accumulator + item.totalPrice,
-                  0
-                )
-              )}
-              đ
-            </Text>
+          <View style={{ gap: 2 }}>
+            <View style={styles.containerPrice}>
+              <Text style={styles.textPrice}>Tổng tiền:</Text>
+              <Text style={styles.textPrice} numberOfLines={1}>
+                {formatNumber(
+                  dataOrder.MedicineGuideSells.reduce(
+                    (accumulator, item) => accumulator + item.totalPrice,
+                    0
+                  )
+                )}
+                đ
+              </Text>
+            </View>
+
+            <View style={[styles.containerPrice, { flexDirection: "column" }]}>
+              <Text
+                style={[styles.textPrice, { color: "rgba(69, 152, 211, 1)" }]}
+              >
+                Ghi chú:
+              </Text>
+              <Text style={{ fontSize: 15 }}>
+                {`  ${dataOrder?.note === "" ? "Không có" : dataOrder.note}`}
+              </Text>
+            </View>
           </View>
         </View>
       )}
